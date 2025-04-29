@@ -1,4 +1,4 @@
-﻿#include <algorithm> // эта библиотека нужна для функции transform
+#include <algorithm> // эта библиотека нужна для функции transform
 #include <string>
 #include <iostream>
 #include <vector>
@@ -6,19 +6,7 @@
 #include <set>
 using namespace std;
 
-bool IsLetter(string l)
-{
-	if ((l >= "A" && l <= "Z") || (l >= "a" && l <= "z")
-		|| (l >= "А" && l <= "Я")
-		|| (l >= "а" && l <= "я")
-		|| (l == "ё")
-		|| (l == "Ё")
-		|| (l == "\'"))
-		return true;
-	return false;
-}
-
-vector<string> multisplit(const string& str, const set<char>& delimiters = { ' ' })
+vector<string> multisplit(const string& str, const set<char>& delimiters)
 {
 	vector<string> result;
 	string part;
@@ -48,20 +36,31 @@ size_t multifind(const string& str, const set<char>& delimiters, size_t startPos
 	return std::string::npos;
 }
 
-vector<vector<string>> SentencesParser(string text)
+vector<vector<string>> SentencesParser(string& text)
 {
 	vector<vector<string>> result;
+	vector<string> words;
+	set<char> delimiters{ '.','!','?',';',':','(', ')' };
+	size_t pos = multifind(text, delimiters);
+	size_t startPos = 0;
+	string piece;
+	while (!text.empty())
+	{
+		piece = text.substr(startPos, pos - startPos);
 
+	}
 	
 
 	return result;
 }
 
-void Print(vector<vector<string>> vvs)   //функция вывода координат
+void Print(vector<vector<string>>& vvs)   //функция вывода координат
 {
-	for (int i = 0; i < vvs.size(); i ++)
+	for (size_t i = 0; i < vvs.size(); i ++)
 	{
-		
+		cout << i + 1 << " предложение: ";
+		for (size_t j = 0; j < vvs[i].size(); i++)
+			cout << vvs[i][j] << endl;
 	}
 }
 
@@ -73,9 +72,10 @@ int main()
 	if (f)
 	{
 		while (f >> str)
-			auto result1 = multisplit(str, set<char> {'!', '.', '?', ';', ':', '(', ')'});
+			source += str + ' ';
+		f.close();
 	}
 	else return -1;
-
 	transform(source.begin(), source.end(), source.begin(), tolower);
+	Print(SentencesParser(source));
 }
