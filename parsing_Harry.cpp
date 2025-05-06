@@ -55,7 +55,7 @@ vector<vector<string>> SentencesParser(const string& text)
 		sentence = text.substr(startPos, pos - startPos);
 		if (sentence.length() > 0)
 		{
-			for (size_t i = 0; i < sentence.length(); i++)
+			for (int i = 0; i < sentence.length(); i++)
 				while (delimiters1.count(sentence[i]) > 0 || sentence[i] == '”' || sentence[i] == '“')
 					sentence.erase(i, 1);
 			words = multisplit(sentence, delimiters);
