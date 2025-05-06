@@ -45,8 +45,9 @@ vector<vector<string>> SentencesParser(const string& text)
 {
 	vector<vector<string>> result;
 	vector<string> words;
-	set<char> delimiters{ '.','!','?',';',':','(', ')' };
-	size_t pos = multifind(text, delimiters);
+	set<char> delimiters{ '.','!','?',';',':','(', ')'};
+	set<char> delimiters1{ '.','!','?',';',':','(', ')', ',', '"'};
+	size_t pos = multifind(text, delimiters1);
 	size_t startPos = 0;
 	string sentence;
 	while (pos != std::string::npos)
@@ -54,10 +55,13 @@ vector<vector<string>> SentencesParser(const string& text)
 		sentence = text.substr(startPos, pos - startPos);
 		if (sentence.length() > 0)
 		{
+			for (size_t i = 0; i < sentence.length(); i++)
+				while (delimiters1.count(sentence[i]) > 0 || sentence[i] == '”' || sentence[i] == '“')
+					sentence.erase(i, 1);
 			words = multisplit(sentence, delimiters);
 			result.push_back(words);
 		}
-			startPos = pos;
+			startPos = pos + 1;
 			pos = multifind(text, delimiters, pos + 1);
 	}
 	return result;
@@ -76,7 +80,7 @@ void Print(const vector<vector<string>>& vvs)   //функция вывода к
 
 int main()
 {		
-	ifstream f("ua.txt");
+	ifstream f("HarryPotterText.txt");
 	string str, source;
 	if (f)
 	{
